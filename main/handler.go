@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-var parser = NewParser()
+var parser = NewParser(NewInMemoryStore())
 
 func GetCurrentBlock(w http.ResponseWriter, r *http.Request) {
 	currentBlock, err := parser.GetCurrentBlock()
@@ -27,7 +27,10 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	parser.Subscribe(data.Address)
+	response := SubscribeResponse{
+		Subscribed: parser.Subscribe(data.Address),
+	}
+	writeSucceedResponse(w, response)
 }
 
 func GetTransactions(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +45,12 @@ func GetTransactions(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	writeSucceedResponse(w, transactions)
+	response := GetTransactionsResponse{
+		Address:      data.Address,
+		Transactions: transactions,
+	}
+
+	writeSucceedResponse(w, response)
 }
 
 func writeSucceedResponse(w http.ResponseWriter, results interface{}) {

@@ -1,11 +1,23 @@
 package main
 
 type Transaction struct {
-	Hash     string `json:"hash"`
-	From     string `json:"from"`
-	To       string `json:"to"`
-	Value    string `json:"value"`
-	GasPrice string `json:"gasPrice"`
+	BlockHash        string `json:"blockHash"`
+	BlockNumber      string `json:"blockNumber"`
+	From             string `json:"from"`
+	Gas              string `json:"gas"`
+	GasPrice         string `json:"gasPrice"`
+	Hash             string `json:"hash"`
+	Input            string `json:"input"`
+	Nonce            string `json:"nonce"`
+	To               string `json:"to"`
+	TransactionIndex string `json:"transactionIndex"`
+	Value            string `json:"value"`
+	IsInbound        bool   `json:"isInbound"`
+}
+
+type TransactionsRecord struct {
+	Address      string        `json:"address"`
+	Transactions []Transaction `json:"transactions"`
 }
 
 type CurrentBlock struct {
@@ -20,11 +32,15 @@ type SubscribeRequest struct {
 	Address string `json:"address"`
 }
 
+type SubscribeResponse struct {
+	Subscribed bool `json:"subscribed"`
+}
+
 type GetTransactionsRequest struct {
 	Address string `json:"address"`
 }
 
 type GetTransactionsResponse struct {
-	InboundTransactions  []Transaction `json:"inbound_transactions"`
-	OutboundTransactions []Transaction `json:"outbound_transactions"`
+	Address      string        `json:"address"`
+	Transactions []Transaction `json:"transactions"`
 }
