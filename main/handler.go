@@ -57,7 +57,10 @@ func writeSucceedResponse(w http.ResponseWriter, results interface{}) {
 	fmt.Println("writeSucceedResponse", results)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(results)
+
+	if err := json.NewEncoder(w).Encode(results); err != nil {
+		log.Fatal("error when encoding json result", err)
+	}
 }
 
 func initHandler(port string) {

@@ -1,5 +1,7 @@
 package main
 
+// Internal business domain entities
+
 type Transaction struct {
 	BlockHash        string `json:"blockHash"`
 	BlockNumber      string `json:"blockNumber"`
@@ -12,17 +14,24 @@ type Transaction struct {
 	To               string `json:"to"`
 	TransactionIndex string `json:"transactionIndex"`
 	Value            string `json:"value"`
-	IsInbound        bool   `json:"isInbound"`
+}
+
+type Log struct {
+	Address         string `json:"address"`
+	TransactionHash string `json:"TransactionHash"`
 }
 
 type TransactionsRecord struct {
-	Address      string        `json:"address"`
-	Transactions []Transaction `json:"transactions"`
+	Address string `json:"address"`
+	// key = transaction hash
+	Transactions map[string]Transaction `json:"transactions"`
 }
 
 type CurrentBlock struct {
 	Result string `json:"result"`
 }
+
+// API request or response entities
 
 type CurrentBlockResponse struct {
 	CurrentBlock int64 `json:"current_block"`
