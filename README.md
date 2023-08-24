@@ -26,6 +26,7 @@ The app consists of these components, by following the classic MVC model:
 2. Storage: abstracts the methods of persistence layer, extensible to other storages besides in-memory e.g. DB
 3. Handler: forwards different requests to API endpoints then to specific controller methods
 4. Controller: implements the specific business logic for those endpoints
+![Snip20230824_456](https://github.com/LK-Tmac1/tx_parser_go/assets/7871066/2ea8ab12-3410-4463-8635-bd1fcd55d591)
 
 
 ### Implementations
