@@ -34,3 +34,13 @@ The most complicated one is ***GetTransactions***:
 2. For each log/transaction, read from storage if there is any persisted data available 
 3. If not, use the transaction hash value to get the details by ***eth_getTransactionByHash***
 4. Persist the transaction details to storage, if any
+
+
+### Misc.
+Note: I did check the reference doc here: https://ethereum.org/en/developers/docs/apis/json-rpc
+
+But I didn't find any existing method that could return all transactions of an address. 
+
+Thus I came to this solution, although not ideal and I didn't find a good sample address with non-empty logs returned from the method.
+
+It would be great if some sample address (with logs ideally) are provided on the homework.
