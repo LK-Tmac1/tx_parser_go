@@ -3,19 +3,14 @@
 ### How to run the program
 ```
 cd main
-
 # there should be a "main" bin created
 go build
-
 # a new terminal would be opened
 open main
 
 # now let's test all those endpoints, assuming with a valid address
-
 curl -X GET http://localhost:8080/getCurrentBlock
-
 curl -X POST http://localhost:8080/subscribe --data '{"address": "0xYour address"}'
-
 # ensure to subscribe the address first
 curl -X POST http://localhost:8080/getTransactions --data '{"address": "0xYour address"}'
 ```
@@ -27,7 +22,6 @@ The app consists of these components, by following the classic MVC model:
 3. Handler: forwards different requests to API endpoints then to specific controller methods
 4. Controller: implements the specific business logic for those endpoints
 ![image](https://github.com/LK-Tmac1/tx_parser_go/assets/7871066/c731eca0-bd9d-474d-93be-47efd2e39320)
-
 
 ### Implementations
 On a high level, the implementations of those endpoints are similar in that each will:
