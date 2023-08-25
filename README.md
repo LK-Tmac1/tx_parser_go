@@ -26,8 +26,7 @@ The app consists of these components:
 5. Controller: implements the specific business logic for those endpoints plus the transaction auto sync job logic
 6. Worker: a background job that automatically update the transactions of subscribed addresses
 
-![image](https://github.com/LK-Tmac1/tx_parser_go/assets/7871066/c8a2b4c9-a8df-4e28-aa5e-55311604d22d)
-
+![image](https://github.com/LK-Tmac1/tx_parser_go/assets/7871066/6729004a-c8d2-4c8e-832a-fec706d2e095)
 
 ### Implementations
 On a high level, the implementations of those endpoints are straightforward and similar in that each will simply:
