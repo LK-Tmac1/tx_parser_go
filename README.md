@@ -10,11 +10,30 @@ open tx_parser_go
 
 # now test all those endpoints, assuming with valid address(es)
 curl -X GET http://localhost:8080/getCurrentBlock
+{"current_block":17992403}
 
-curl -X POST http://localhost:8080/subscribe --data '{"address": "0xYour address"}'
+curl -X POST http://localhost:8080/subscribe --data '{"address": "0x388c818ca8b9251b393131c08a736a67ccb19297"}' 
+{"subscribed":true}
 
 # ensure to subscribe the address first
-curl -X POST http://localhost:8080/getTransactions --data '{"address": "0xYour address"}'
+curl -X POST http://localhost:8080/getTransactions --data '{"address": "0x388c818ca8b9251b393131c08a736a67ccb19297"}'
+{
+    "transactions":[
+        {
+            "blockHash":"0x83e4e72c86bdc82547d1e970b944f7e00511846979501c2e647fb7d760450a70",
+            "blockNumber":"0x1127d0f",
+            "from":"0xbaf6dc2e647aeb6f510f9e318856a1bcd66c5e19",
+            "gas":"0x565f",
+            "gasPrice":"0x680cfee39",
+            "hash":"0x263a06a12ee90071e4a6968d76f21b9b57f23f3b542c29d17ac8d4ea214b7e91",
+            "input":"0x",
+            "nonce":"0xb549",
+            "to":"0x388c818ca8b9251b393131c08a736a67ccb19297",
+            "transactionIndex":"0x77",
+            "value":"0xa4c2f6e62f05c7"
+        }
+    ]
+}
 ```
 
 ### Design
@@ -42,29 +61,4 @@ The complicated one is the worker job that automatically sync the transactions i
 ### Misc. Items
 I added many logging to better debug the app, although it could be verbose :)
 
-The major TODO left is the make storage thread-safe, since we have a background job updating the data periodically. However, considering the complexity, this is skipped. 
-
-Also, I didn't find some good sample addresses, so some edge cases might not be covered. Some sample outputs:
-```
-curl -X POST http://localhost:8080/subscribe --data '{"address": "0x388c818ca8b9251b393131c08a736a67ccb19297"}' 
-{"subscribed":true}
-
-curl -X POST http://localhost:8080/getTransactions --data '{"address": "0x388c818ca8b9251b393131c08a736a67ccb19297"}'
-{
-    "transactions":[
-        {
-            "blockHash":"0x83e4e72c86bdc82547d1e970b944f7e00511846979501c2e647fb7d760450a70",
-            "blockNumber":"0x1127d0f",
-            "from":"0xbaf6dc2e647aeb6f510f9e318856a1bcd66c5e19",
-            "gas":"0x565f",
-            "gasPrice":"0x680cfee39",
-            "hash":"0x263a06a12ee90071e4a6968d76f21b9b57f23f3b542c29d17ac8d4ea214b7e91",
-            "input":"0x",
-            "nonce":"0xb549",
-            "to":"0x388c818ca8b9251b393131c08a736a67ccb19297",
-            "transactionIndex":"0x77",
-            "value":"0xa4c2f6e62f05c7"
-        }
-    ]
-}
-```
+The major TODO left is the make storage thread-safe, since we have a background job updating the data periodically. However, considering the implmentation complexity, and as this is a demo app there is no real traffic, this is skipped. 
