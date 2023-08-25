@@ -3,10 +3,10 @@
 ### How to run the program
 ```
 cd main
-# there should be a "main" bin created
+# there should be a "tx_parser_go" bin created
 go build
 # a new terminal would be opened
-open main
+open tx_parser_go
 
 # now test all those endpoints, assuming with valid address(es)
 curl -X GET http://localhost:8080/getCurrentBlock
