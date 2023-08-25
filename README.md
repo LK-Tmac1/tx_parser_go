@@ -61,4 +61,4 @@ The complicated one is the worker job that automatically sync the transactions i
 ### Misc. Items
 I added many logging to better debug the app, although it could be verbose :)
 
-The major TODO left is the make storage thread-safe, since we have a background job updating the data periodically. However, considering the implmentation complexity, and as this is a demo app there is no real traffic, this is skipped. 
+The major TODO left is to make the storage layer more thread-safe, since we have a background job updating the data periodically. However, considering the implmentation complexity, and as this is a demo app there is no real traffic, this is skipped. 
