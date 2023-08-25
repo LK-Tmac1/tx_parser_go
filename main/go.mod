@@ -1,1 +1,1 @@
-module TWHWGO
+module tx_parser_go
