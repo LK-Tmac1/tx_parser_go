@@ -44,9 +44,7 @@ I added many logging to better debug the app, although it could be verbose :)
 
 The major TODO left is the make storage thread-safe, since we have a background job updating the data periodically. However, considering the complexity, this is skipped. 
 
-Also, I didn't find some good sample addresses, so some edge cases might not be covered.
-
-Some sample outputs:
+Also, I didn't find some good sample addresses, so some edge cases might not be covered. Some sample outputs:
 ```
 curl -X POST http://localhost:8080/subscribe --data '{"address": "0x388c818ca8b9251b393131c08a736a67ccb19297"}' 
 {"subscribed":true}
