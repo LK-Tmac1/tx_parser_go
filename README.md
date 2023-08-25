@@ -42,9 +42,7 @@ The complicated one is the worker job that automatically sync the transactions i
 ### Misc. Items
 I added many logging to better debug the app, although it could be verbose :)
 
-The major TODO left is the make storage thread-safe, since we have a background job updating the data periodically.
-
-However, considering the complexity, this is skipped. 
+The major TODO left is the make storage thread-safe, since we have a background job updating the data periodically. However, considering the complexity, this is skipped. 
 
 Also, I didn't find some good sample addresses, so some edge cases might not be covered.
 
