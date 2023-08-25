@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-var parser = NewParser(NewInMemoryStore())
+var parser *Parser
 
 func GetCurrentBlock(w http.ResponseWriter, r *http.Request) {
 	currentBlock, err := parser.GetCurrentBlock()
@@ -16,8 +16,8 @@ func GetCurrentBlock(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := CurrentBlockResponse{CurrentBlock: *currentBlock}
-	writeSucceedResponse(w, result)
+	response := CurrentBlockResponse{CurrentBlock: *currentBlock}
+	writeSucceedResponse(w, response)
 }
 
 func Subscribe(w http.ResponseWriter, r *http.Request) {
@@ -27,9 +27,7 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := SubscribeResponse{
-		Subscribed: parser.Subscribe(data.Address),
-	}
+	response := SubscribeResponse{Subscribed: parser.Subscribe(data.Address)}
 	writeSucceedResponse(w, response)
 }
 
@@ -45,29 +43,25 @@ func GetTransactions(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	response := GetTransactionsResponse{
-		Address:      data.Address,
-		Transactions: transactions,
-	}
-
+	response := GetTransactionsResponse{Transactions: transactions}
 	writeSucceedResponse(w, response)
 }
 
-func writeSucceedResponse(w http.ResponseWriter, results interface{}) {
-	fmt.Println("writeSucceedResponse", results)
+func writeSucceedResponse(w http.ResponseWriter, response interface{}) {
+	fmt.Println("writeSucceedResponse", response)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
-	if err := json.NewEncoder(w).Encode(results); err != nil {
+	if err := json.NewEncoder(w).Encode(response); err != nil {
 		log.Fatal("error when encoding json result", err)
 	}
 }
 
-func initHandler(port string) {
+func initHandler(port string, p *Parser) {
+	parser = p
 	http.HandleFunc("/getCurrentBlock", GetCurrentBlock)
 	http.HandleFunc("/subscribe", Subscribe)
 	http.HandleFunc("/getTransactions", GetTransactions)
 
-	fmt.Println("starting service on", port)
 	log.Fatal(http.ListenAndServe("localhost:"+port, nil))
 }

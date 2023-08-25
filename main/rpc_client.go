@@ -18,56 +18,41 @@ func NewRpcClient() RpcClient {
 	return RpcClient{}
 }
 
-func (c RpcClient) GetCurrentBlock() (*string, error) {
+func (c RpcClient) GetLatestBlock() (*string, error) {
 	var params []map[string]interface{}
 	rpcResponse, err := callEthRpcHelper("eth_blockNumber", params)
 	if err != nil {
 		return nil, err
 	}
 
-	var currentBlock CurrentBlock
-	if err = json.NewDecoder(rpcResponse.Body).Decode(&currentBlock); err != nil {
+	var latestBlock struct {
+		Result string `json:"result"`
+	}
+	if err = json.NewDecoder(rpcResponse.Body).Decode(&latestBlock); err != nil {
 		return nil, err
 	}
 
-	return &currentBlock.Result, nil
+	return &latestBlock.Result, nil
 }
 
-func (c RpcClient) GetLogs(address string) (*[]Log, error) {
-	params := []map[string]interface{}{{"address": []string{address}}}
-	response, err := callEthRpcHelper("eth_getLogs", params)
+func (c RpcClient) GetBlockByNumber(hex string) (*Block, error) {
+	params := []interface{}{hex, true}
+	rpcResponse, err := callEthRpcHelper("eth_getBlockByNumber", params)
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
+	defer rpcResponse.Body.Close()
 
-	// then get all transactions by those logs
-	var rpcResponse struct {
-		Result []Log `json:"result"`
+	var blockByNumber struct {
+		Result *Block `json:"result"`
 	}
-	if err := json.NewDecoder(response.Body).Decode(&rpcResponse); err != nil {
+
+	if err := json.NewDecoder(rpcResponse.Body).Decode(&blockByNumber); err != nil {
+		fmt.Println("eth_getBlockByNumber encoding error", err)
 		return nil, err
 	}
 
-	return &rpcResponse.Result, err
-}
-
-func (c RpcClient) GetTransactionByHash(txnHash string) (*Transaction, error) {
-	params := []string{txnHash}
-	response, err := callEthRpcHelper("eth_getTransactionByHash", params)
-	if err != nil {
-		return nil, err
-	}
-	defer response.Body.Close()
-
-	var rpcResponse struct {
-		Result *Transaction `json:"result"`
-	}
-	if err := json.NewDecoder(response.Body).Decode(&rpcResponse); err != nil {
-		fmt.Println("eth_getTransactionByHash encoding error", err)
-		return nil, err
-	}
-	return rpcResponse.Result, err
+	return blockByNumber.Result, nil
 }
 
 func callEthRpcHelper(methodName string, params interface{}) (*http.Response, error) {

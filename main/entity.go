@@ -16,19 +16,10 @@ type Transaction struct {
 	Value            string `json:"value"`
 }
 
-type Log struct {
-	Address         string `json:"address"`
-	TransactionHash string `json:"TransactionHash"`
-}
-
-type TransactionsRecord struct {
-	Address string `json:"address"`
-	// key = transaction hash
-	Transactions map[string]Transaction `json:"transactions"`
-}
-
-type CurrentBlock struct {
-	Result string `json:"result"`
+type Block struct {
+	Number       string        `json:"number"`
+	Hash         string        `json:"hash"`
+	Transactions []Transaction `json:"transactions"`
 }
 
 // API request or response entities
@@ -50,6 +41,5 @@ type GetTransactionsRequest struct {
 }
 
 type GetTransactionsResponse struct {
-	Address      string        `json:"address"`
-	Transactions []Transaction `json:"transactions"`
+	Transactions *[]Transaction `json:"transactions"`
 }
